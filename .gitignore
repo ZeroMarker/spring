@@ -1,0 +1,8 @@
+.idea/
+.vscode/
+node_modules/
+out/
+venv/
+.Rproj.user
+cmake-build-debug/
+archive/
