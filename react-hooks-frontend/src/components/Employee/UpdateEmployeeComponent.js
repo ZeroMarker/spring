@@ -36,16 +36,19 @@ const UpdateEmployeeComponent = ({id,setShowUpdateEmployee,getAllEmployees}) => 
     }
 
     useEffect(() => {
-        
-        EmployeesService.getEmployeeById(id).then(response=>{
-            setFirstName(response.data.firstName);
-            setLastName(response.data.lastName);
-            setEmailId(response.data.emailId);
-        }).catch(error=>{
-            console.log(error);
-        })
-
-    }, [])
+        const fetchData = async () => {
+            try {
+                const response = await EmployeesService.getEmployeeById(id);
+                const { firstName, lastName, emailId } = response.data;
+                setFirstName(firstName);
+                setLastName(lastName);
+                setEmailId(emailId);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [id]); 
 
  
 

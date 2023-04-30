@@ -36,17 +36,18 @@ const UpdateProductComponent = ({id,setShowUpdateProduct,getAllProducts}) => {
     }
 
     useEffect(() => {
-        
-        ProductsService.getProductById(id).then(response=>{
-            setProductName(response.data.productName);
-            setProductInfo(response.data.productInfo);
-            
-        }).catch(error=>{
-            console.log(error);
-        })
-
-    }, [])
-
+        const fetchData = async () => {
+            try {
+                const response = await ProductsService.getProductById(id);
+                const { productName,  productInfo } = response.data;
+                setProductName(productName);
+                setProductInfo(productInfo);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [id]); 
  
 
     return (
@@ -72,7 +73,7 @@ const UpdateProductComponent = ({id,setShowUpdateProduct,getAllProducts}) => {
                                    <label className="form-label">Last Name :</label>
                                    <input 
                                     type="text" 
-                                    placeholder="Enter product Infomation"
+                                    placeholder="Enter product Information"
                                     name="productInfo"
                                     className="form-control"
                                     value = {productInfo}

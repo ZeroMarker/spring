@@ -37,17 +37,19 @@ const UpdateCustomerComponent = ({id,setShowUpdateCustomer,getAllCustomers}) => 
     }
 
     useEffect(() => {
-        
-        CustomersService.getCustomerById(id).then(response=>{
-            setCustomerName(response.data.customerName);
-            setCustomerPhone(response.data.customerPhone);
-            setCustomerAddress(response.data.customerAddress)
-            
-        }).catch(error=>{
-            console.log(error);
-        })
-
-    }, [])
+        const fetchData = async () => {
+            try {
+                const response = await CustomersService.getCustomerById(id);
+                const { customerName, customerPhone, customerAddress } = response.data;
+                setCustomerName(customerName);
+                setCustomerPhone(customerPhone);
+                setCustomerAddress(customerAddress);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [id]); 
 
  
 
@@ -84,7 +86,7 @@ const UpdateCustomerComponent = ({id,setShowUpdateCustomer,getAllCustomers}) => 
                                    <label className="form-label">Customer Address :</label>
                                    <input 
                                     type="text" 
-                                    placeholder="Enter customer adderss"
+                                    placeholder="Enter customer address"
                                     name="customerAddress"
                                     className="form-control"
                                     value = {customerAddress}
